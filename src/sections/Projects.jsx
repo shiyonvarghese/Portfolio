@@ -50,25 +50,6 @@ const Projects = () => {
             <p className="animatedText">{currentProject.subdesc}</p>
           </div>
 
-          <div className="flex items-center justify-between flex-wrap gap-5">
-            <div className="flex items-center gap-3">
-              {currentProject.tags.map((tag, index) => (
-                <div key={index} className="tech-logo">
-                  <img src={tag.path} alt={tag.name} />
-                </div>
-              ))}
-            </div>
-
-            <a
-              className="flex items-center gap-2 cursor-pointer text-white-600"
-              href={currentProject.href}
-              target="_blank"
-              rel="noreferrer">
-              <p>Check Live Site</p>
-              <img src="/assets/arrow-up.png" alt="arrow" className="w-3 h-3" />
-            </a>
-          </div>
-
           <div className="flex justify-between items-center mt-7">
             <button className="arrow-btn" onClick={() => handleNavigation('previous')}>
               <img src="/assets/left-arrow.png" alt="left arrow" />
@@ -80,21 +61,25 @@ const Projects = () => {
           </div>
         </div>
 
-        <div className="border border-black-300 bg-black-200 rounded-lg h-96 md:h-full">
-          <Canvas>
-            <ambientLight intensity={Math.PI} />
-            <directionalLight position={[10, 10, 5]} />
-            <Center>
-              <Suspense fallback={<CanvasLoader />}>
-                <group scale={2} position={[0, -3, 0]} rotation={[0, -0.1, 0]}>
-                  <DemoComputer texture={currentProject.texture} />
-                </group>
-              </Suspense>
-            </Center>
-            <OrbitControls maxPolarAngle={Math.PI / 2} enableZoom={false} />
-          </Canvas>
-        </div>
-      </div>
+        <div className="border border-black-300 bg-black-200 rounded-lg h-96 md:h-full overflow-hidden">
+  {currentProject.texture.endsWith('.mp4') || currentProject.texture.endsWith('.png') ? (
+    <video 
+      src={currentProject.texture} 
+      className="w-full h-full object-cover" 
+      autoPlay 
+      loop 
+      muted 
+      playsInline
+    />
+  ) : (
+    <img 
+      src={currentProject.texture} 
+      alt={currentProject.title} 
+      className="w-full h-full object-cover"
+    />
+  )}
+</div>
+</div>
     </section>
   );
 };
